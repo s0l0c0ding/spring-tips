@@ -1,0 +1,13 @@
+package dev.solocoding.entitylistener;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class EntitylistenerApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(EntitylistenerApplication.class, args);
+	}
+
+}
