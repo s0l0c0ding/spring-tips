@@ -39,7 +39,7 @@ class EntitylistenerApplicationTests {
 		postRepo.save(post);
 
 		postRepo.count();
-		assertEquals(2, bckRepo.count());
+		assertEquals(2, bckRepo.count());// when run at its own otherwise 3
 
 	}
 

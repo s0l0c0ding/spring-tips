@@ -18,7 +18,6 @@ import lombok.RequiredArgsConstructor;
 public class PostListener {
 
     private final PostBckRepo bckRepo;
-    private PostBck backup;
     
     @PrePersist //to be called before presist // flushing
     public void onPrePrist(final Post toSave){
@@ -29,7 +28,7 @@ public class PostListener {
     @PostUpdate // after update
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void afterPresist(final Post saved){
-        backup = new PostBck(saved);
+        PostBck backup = new PostBck(saved);
         bckRepo.save(backup);
     }
 
