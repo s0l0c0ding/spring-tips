@@ -2,6 +2,7 @@ package dev.solocoding.entitylistener;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -17,6 +18,11 @@ class EntitylistenerApplicationTests {
 	private PostRepo postRepo;
 	@Autowired
 	private PostBckRepo bckRepo;
+
+	@BeforeEach
+	void inti(){
+		bckRepo.deleteAllInBatch();//as the backup is done in a seprate transaction
+	}
 
 	@Test
 	void shouldBckOnPresist() {
@@ -39,7 +45,7 @@ class EntitylistenerApplicationTests {
 		postRepo.save(post);
 
 		postRepo.count();
-		assertEquals(2, bckRepo.count());// when run at its own otherwise 3
+		assertEquals(2, bckRepo.count());
 
 	}
 
