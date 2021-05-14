@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apiversioning
+spec:
+  selector:
+    matchLabels:
+      app: apiversioning
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: apiversioning
+        version: v1
+    spec:
+      containers:
+      - name: apiversioning
+        image: apiversioning:latest
+        imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+        env:
+          - name: API_VERSION
+            value: /v1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: apiversioning
+spec:
+  selector:
+    app: apiversioning
+    version: v1
+  ports:
+  - port: 8080
+    targetPort: 8080
+---
+apiVersion: getambassador.io/v2
+kind: Mapping
+metadata:
+  name: apiversioning
+spec:
+  prefix: /api-v1
+  service: apiversioning:8080
