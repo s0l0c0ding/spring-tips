@@ -18,8 +18,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 class JsonHibernateApplicationTests {
 
 
-
-	Logger logger = Logger.getLogger(JsonHibernateApplicationTests.class.getName());
+	private static final String BASE = "/posts";
+	private static final Logger logger = Logger.getLogger(JsonHibernateApplicationTests.class.getName());
 
 	@Autowired
 	private TestRestTemplate restTemplate;
@@ -31,7 +31,7 @@ class JsonHibernateApplicationTests {
 	@Test
 	@Sql("init-db.sql")
 	void whenGetPostThenSuccess() {
-		Postdto actual = restTemplate.getForObject("/{id}", Postdto.class, 1);
+		Postdto actual = restTemplate.getForObject(BASE + "/{id}", Postdto.class, 1);
 		
 		assertEquals("post1", actual.post());
 		assertFalse(actual.comment().get("key").isMissingNode());
@@ -46,7 +46,7 @@ class JsonHibernateApplicationTests {
 		var commentBody = "commentPost";
 		var req = new Postdto(postBody, mapper.createObjectNode().put("key", commentBody));
 		
-		Postdto actual = restTemplate.postForObject("/", req, Postdto.class);
+		Postdto actual = restTemplate.postForObject(BASE , req, Postdto.class);
 		
 		assertEquals(postBody, actual.post());
 		assertFalse(actual.comment().get("key").isMissingNode());
@@ -57,7 +57,7 @@ class JsonHibernateApplicationTests {
 	@Test
 	@Sql("init-db.sql")
 	void whenGetPostByCommentThenSuccess() {
-		Postdto actual = restTemplate.getForObject("/comments/{body}", Postdto.class, "bodyComment222");
+		Postdto actual = restTemplate.getForObject(BASE + "/comments/{body}", Postdto.class, "bodyComment222");
 		
 		assertEquals("post2", actual.post());
 		assertFalse(actual.comment().get("key").isMissingNode());
