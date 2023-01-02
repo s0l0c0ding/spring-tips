@@ -2,7 +2,6 @@ package dev.solocoding.jsonhibernate;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,10 +16,8 @@ public class Post {
 
     private String body;
 
-    @Column(name="comment", columnDefinition = "jsonb")
     private JsonNode comment;
 
-    
     public Long getId() {
         return id;
     }
@@ -45,6 +42,5 @@ public class Post {
     public void setBody(String body) {
         this.body = body;
     }
-
 
 }
